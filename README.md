@@ -5,6 +5,8 @@ on-updater
 
 Script to keep the model verion database updated.
 
+This script creates an auxiliar Database Table to register the executed scripts, and prevent to execute any executed script.
+
 
 # Use
 
@@ -15,8 +17,12 @@ Script to keep the model verion database updated.
 ### Help (this)
 
 In terminal:
-+ bash db_updater.sh
-+ bash db_updater.sh --help
+
+<pre>bash db_updater.sh</pre>
+
+or
+
+<pre>bash db_updater.sh --help</pre>
 
 
 ### Rollback on error
