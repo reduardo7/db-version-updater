@@ -8,6 +8,59 @@ Script to keep the verion of the database model updated, using a simple Linux sc
 This script creates an auxiliar Database Table to register the executed scripts, and prevent to execute any executed script.
 
 
+# Configuration
+
+All you need to configure are under _DB config_ section. Search for "# DB config".
+
+You can configure:
+
+<pre>
+DB_USER="USER"
+DB_PASS="PASS"
+DB_NAME="DB_NAME"
+DB_HOST="localhost"
+DB_TABLE="DB_VERSION"
+DB_CHARSET="latin1"
+DB_PORT="3306"
+</pre>
+
+### No use configuration
+
+if you do not want to leave the Database data in this file, you can leave it blank as follows:
+
+<pre>
+DB_PASS=""
+</pre>
+
+or
+
+<pre>
+DB_USER=""
+DB_PASS=""
+</pre>
+
+or
+
+<pre>
+DB_USER=""
+DB_PASS=""
+DB_NAME=""
+DB_TABLE=""
+</pre>
+
+or
+
+<pre>
+DB_USER=""
+DB_PASS=""
+DB_NAME=""
+DB_HOST=""
+DB_TABLE=""
+DB_PORT=""
+</pre>
+
+In this case, you need to use extra parameters to set all empty configurations.
+
 # Use
 
 
