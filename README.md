@@ -3,7 +3,7 @@ on-updater
 
 # Description
 
-Script to keep the model verion database updated.
+Script to keep the verion of the database model updated, using a simple Linux script.
 
 This script creates an auxiliar Database Table to register the executed scripts, and prevent to execute any executed script.
 
