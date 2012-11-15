@@ -1,4 +1,4 @@
-on-updater
+db-version-updater
 ==================
 
 # Description
