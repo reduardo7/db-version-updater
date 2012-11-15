@@ -1,5 +1,5 @@
-db-version-updater
-==================
+db-version-updater | DB Version Updater
+=======================================
 
 # Description
 
