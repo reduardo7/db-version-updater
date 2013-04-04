@@ -7,6 +7,12 @@ Script to keep the verion of the database model updated, using a simple Linux sc
 
 This script creates an auxiliar Database Table to register the executed scripts, and prevent to execute any executed script.
 
+## Why use it?
+
+1. Very easy to implement.
+2. No additionals components required.
+3. No need to learn a new language.
+4. No need to learn a new syntax.
 
 # Configuration
 
