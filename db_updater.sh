@@ -6,6 +6,9 @@
 #
 # For more help, execute this file into a Terminal without parameters.
 #
+# Version: 1.0
+# URL: https://github.com/reduardo7/db-version-updater
+#
 # Eduardo Cuomo | eduardo.cuomo.ar@gmail.com
 
 
