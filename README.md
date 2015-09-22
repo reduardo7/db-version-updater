@@ -3,9 +3,9 @@ db-version-updater | DB Version Updater
 
 # Description
 
-Script to keep the verion of the database model updated, using a simple Linux script.
+Script to keep the version of the database model updated, using a simple Linux script.
 
-This script creates an auxiliar Database Table to register the executed scripts, and prevent to execute any executed script.
+This script creates an auxiliary Database Table to register the executed scripts, and prevent to execute any executed script.
 
 ## Why use it?
 
