@@ -375,7 +375,7 @@ fi
 
 # Set Ok Version
 if [ "$1" = "${ARG_SET_OK}" ] ; then
-	varsion="$2"
+	version="$2"
 	[ -z "$version" ] && e_e "Error! Version is required"
 	e "Setting Version ${version} as '$DB_STATUS_EXECUTED'..."
 	e_l
@@ -400,7 +400,7 @@ fi
 
 # Delete Version
 if [ "$1" = "${ARG_DELETE}" ] ; then
-	varsion="$2"
+	version="$2"
 	[ -z "$version" ] && e_e "Error! Version is required"
 	e "Deleting Version ${version}..."
 	e_l
