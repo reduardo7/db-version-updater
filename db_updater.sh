@@ -38,10 +38,11 @@ DB_STATUS_ERROR="ERROR"
 ARG_UPDATE="update"
 ARG_CREATE="create"
 ARG_MARK_UPDATED="mark-updated"
+ARG_DELETE="delete"
+ARG_STATUS="status"
 
 # File format
-CHAR_SEP="\ \-\_\,\|\#"
-CHAR_SEP_P="\ \-\_\,\|\#\."
+CHAR_SEP_P="\ \_\,\|\#\.\-"
 FILE_NAME_FORMAT="[version number (BIGINT)][${CHAR_SEP_P}][Query description][.sql]"
 
 # Vars
@@ -132,6 +133,9 @@ function show_help() {
 	e "--help         This help."
 	e
 	e "ACTION:"
+	e "$ARG_STATUS         Show status."
+	e "               Uses:"
+	e "                 # bash $script $ARG_STATUS"
 	e "$ARG_UPDATE         Execute update."
 	e "               NOTE: Transaction rollback on MySQL error."
 	e "$ARG_CREATE         Create a SQL file to mark all files as executed."
@@ -141,6 +145,12 @@ function show_help() {
 	e "                 # bash $script $ARG_CREATE \"0. Mark executed to version X.sql\""
 	e "               TIP: You can use version '0' to execute before others already executed files."
 	e "$ARG_MARK_UPDATED   Mark all files as executed without execute files."
+	e "               Uses:"
+	e "                 # bash $script $ARG_MARK_UPDATED"
+	e "$ARG_DELETE         Delete changelog by VERSION"
+	e "               Uses:"
+	e "                 # bash $script $ARG_DELETE VERSION"
+	e "                 # bash $script $ARG_DELETE 1234"
 	e_e
 }
 
@@ -195,8 +205,7 @@ shift # remove the '--', now $1 positioned at first argument if any
 
 # Query: Execute query
 function q_e() {
-	query=$1
-	mysql -h ${DB_HOST} -u ${DB_USER} -p${DB_PASS} -P ${DB_PORT} ${DB_NAME} -e "${query}"
+	mysql -h ${DB_HOST} -u ${DB_USER} -p${DB_PASS} -P ${DB_PORT} ${DB_NAME} -e "$1"
 	return $?
 }
 
@@ -302,6 +311,8 @@ COMMIT;"
 				e "Query executed!"
 			fi
 			e_l
+		else
+			e "Skip file: $file"
 		fi
 	done
 
@@ -354,6 +365,58 @@ if [ "$1" = "${ARG_MARK_UPDATED}" ] ; then
 	echo
 	echo
 	echo "Finish!"
+	ex 0
+fi
+
+# Delete Version
+if [ "$1" = "${ARG_DELETE}" ] ; then
+	varsion="$2"
+	[ -z "$version" ] && e_e "Error! Version is required"
+	e "Deleting Version ${version}..."
+	e_l
+
+	# Create table if not exists
+	create_table
+
+	# Delete
+	q="DELETE FROM \`${DB_TABLE}\` WHERE \`version\` = ${version}"
+	e "$q"
+	q_e "$q"
+
+	# Finish!
+	e "DB ${DB_HOST}@${DB_NAME} version ${version} deleted!"
+	e_l
+
+	echo
+	echo
+	echo "Finish!"
+	ex 0
+fi
+
+# Status
+if [ "$1" = "${ARG_STATUS}" ] ; then
+	e "Show Status"
+	e_l
+
+	# Create table if not exists
+	create_table
+
+	# COUNT
+	q="SELECT COUNT(*) AS COUNT FROM \`${DB_TABLE}\`"
+	e "$q"
+	q_e "$q"
+	e_l
+	# SELECT
+	q="SELECT * FROM \`${DB_TABLE}\`"
+	e "$q"
+	q_e "$q"
+
+	# Finish!
+	e_l
+
+	echo
+	echo
+	echo "Done!"
 	ex 0
 fi
 
