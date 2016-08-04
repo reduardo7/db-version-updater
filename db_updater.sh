@@ -40,6 +40,7 @@ ARG_CREATE="create"
 ARG_MARK_UPDATED="mark-updated"
 ARG_DELETE="delete"
 ARG_STATUS="status"
+ARG_SET_OK="set-ok"
 
 # File format
 CHAR_SEP_P="\ \_\,\|\#\.\-"
@@ -147,6 +148,10 @@ function show_help() {
 	e "$ARG_MARK_UPDATED   Mark all files as executed without execute files."
 	e "               Uses:"
 	e "                 # bash $script $ARG_MARK_UPDATED"
+	e "$ARG_SET_OK         Set VERSION as '$DB_STATUS_EXECUTED'."
+	e "               Uses:"
+	e "                 # bash $script $ARG_SET_OK VERSION"
+	e "                 # bash $script $ARG_SET_OK 1234"
 	e "$ARG_DELETE         Delete changelog by VERSION"
 	e "               Uses:"
 	e "                 # bash $script $ARG_DELETE VERSION"
@@ -304,7 +309,7 @@ COMMIT;"
 					e "QUERY:${br}${br}$update_query${br}"
 					e
 					e "Mark this script as executed:"
-					e_e "${query_executed};"
+					e_e "$ bash $0 $ARG_SET_OK $version"
 				fi
 				# Ok
 				q_e "$query_executed"
@@ -360,6 +365,31 @@ if [ "$1" = "${ARG_MARK_UPDATED}" ] ; then
 
 	# Finish!
 	e "DB ${DB_HOST}@${DB_NAME} marked as updated!"
+	e_l
+
+	echo
+	echo
+	echo "Finish!"
+	ex 0
+fi
+
+# Set Ok Version
+if [ "$1" = "${ARG_SET_OK}" ] ; then
+	varsion="$2"
+	[ -z "$version" ] && e_e "Error! Version is required"
+	e "Setting Version ${version} as '$DB_STATUS_EXECUTED'..."
+	e_l
+
+	# Create table if not exists
+	create_table
+
+	# Update
+	q="UPDATE \`${DB_TABLE}\` SET \`status\` = '$DB_STATUS_EXECUTED' WHERE \`version\` = ${version}"
+	e "$q"
+	q_e "$q"
+
+	# Finish!
+	e "DB ${DB_HOST}@${DB_NAME} version ${version} is ${DB_STATUS_EXECUTED}!"
 	e_l
 
 	echo
